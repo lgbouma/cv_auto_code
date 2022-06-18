@@ -60,9 +60,12 @@ def make_item(e):
     return final
 
 #### Run
-for i,l in enumerate(libs):
-    df = get_df(l)
-    with open(fns[i], 'w') as f:
-        for _,e in df.iterrows():
-            f.write(make_item(e)+'\n \n')
-    print(f'Wrote {fns[i]}. Has {len(df)} entries.')
+if __name__ == "__main__":
+    if not isinstance(libs, (np.ndarray, list)): libs = [libs]
+    if not isinstance(fns, (np.ndarray, list)): fns = [fns]
+    for i,l in enumerate(libs):
+        df = get_df(l)
+        with open(fns[i], 'w') as f:
+            for _,e in df.iterrows():
+                f.write(make_item(e)+'\n \n')
+        print(f'Wrote {fns[i]}. Has {len(df)} entries.')
