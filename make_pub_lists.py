@@ -35,7 +35,7 @@ def get_df(lib):
     try:
         selection = df[['author', 'title', 'journal', 'volume', 'number', 'eid', 'adsurl', 'primaryclass']]
     except: ##above will throw error if only nonref papers
-            selection = df[['author', 'title', 'journal', 'eid', 'adsurl', 'primaryclass']]
+        selection = df[['author', 'title', 'journal', 'eid', 'adsurl', 'primaryclass']]
     return selection
 
 def fix_auth(entry):
@@ -52,7 +52,12 @@ def make_item(e):
     if e['journal'] == 'arXiv e-prints':
         url = f'\\href{{{e["adsurl"]}}}{{{e["eid"]}}}'
     else:
+        keys = 'journal,volume,number,eid'.split(',')
+        for key in keys:
+            if pd.isnull(e[key]):
+                e[key] = ''
         url = f'\\href{{{e["adsurl"]}}}{{{s.join([e["journal"], e["volume"], e["number"], e["eid"]])}}}'
+
     if e['primaryclass'] == 'hep-ph':
         final = '\\item $\\dagger$ '+ s.join([auths, title, url])
     else:
@@ -60,9 +65,17 @@ def make_item(e):
     return final
 
 #### Run
-for i,l in enumerate(libs):
-    df = get_df(l)
-    with open(fns[i], 'w') as f:
-        for _,e in df.iterrows():
-            f.write(make_item(e)+'\n \n')
-    print(f'Wrote {fns[i]}. Has {len(df)} entries.')
+if __name__ == "__main__":
+
+    if not isinstance(libs, (np.ndarray, list)): libs = [libs]
+    if not isinstance(fns, (np.ndarray, list)): fns = [fns]
+
+    for i,l in enumerate(libs):
+        df = get_df(l)
+        with open(fns[i], 'w') as f:
+            for _,e in df.iterrows():
+                try:
+                    f.write(make_item(e)+'\n \n')
+                except:
+                    import IPython; IPython.embed()
+        print(f'Wrote {fns[i]}. Has {len(df)} entries.')
