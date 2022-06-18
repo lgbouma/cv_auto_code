@@ -1,0 +1,1 @@
+# Put your ADS API key here. Make sure not to share it!

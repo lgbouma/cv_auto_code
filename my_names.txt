@@ -1,0 +1,3 @@
+# Put all the names you go by in bibtex format, e.g.,:
+# {LastName}, FirstName
+# {LastName}, FirstInitial

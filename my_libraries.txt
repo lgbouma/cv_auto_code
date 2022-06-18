@@ -1,0 +1,2 @@
+# Put the library ids and output files for all libraries you want to use, e.g.,:
+# XXXXXXXXXXXXXXXXXXXXXX  output.tex
