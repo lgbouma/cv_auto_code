@@ -2,7 +2,7 @@ This script creates tex files with lists of publications from ADS libraries. The
 
 To use, you will first need to edit three files:
 
-1. `my_key.txt` -- your [https://ui.adsabs.harvard.edu/user/settings/token][ADS API key]. You need this to access the API, even for public libraries.
+1. `my_key.txt` -- your [ADS API key](https://ui.adsabs.harvard.edu/user/settings/token). You need this to access the API, even for public libraries.
 2. `my_names.txt` -- how your name is listed in bibtex entries. This will then enable the script to bold your name. Typically this is in the form "{LastName}, FirstName". Put only one name on each line.
 3. `my_libraries.txt` -- each line should have an ADS library id, followed by the latex file you wish to output to.
 
