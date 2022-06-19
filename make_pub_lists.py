@@ -16,7 +16,8 @@ libs, fns = np.loadtxt("my_libraries.txt", dtype=str, unpack=True)
 def get_df(lib):
     ## get my papers from library
     r = requests.get("https://api.adsabs.harvard.edu/v1/biblib/libraries/"+lib,\
-                    headers={'Authorization': 'Bearer ' + token})
+                    headers={'Authorization': 'Bearer ' + token},
+                    params={'rows':1000})
     docs = r.json()['documents']
     ## get bibtex
     payload = {"bibcode":docs}
