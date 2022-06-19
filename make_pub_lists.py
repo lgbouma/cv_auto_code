@@ -35,7 +35,7 @@ def get_df(lib):
     try:
         selection = df[['author', 'title', 'journal', 'volume', 'number', 'eid', 'adsurl', 'primaryclass']]
     except: ##above will throw error if only nonref papers
-            selection = df[['author', 'title', 'journal', 'eid', 'adsurl', 'primaryclass']]
+        selection = df[['author', 'title', 'journal', 'eid', 'adsurl', 'primaryclass']]
     return selection
 
 def fix_auth(entry):
@@ -52,7 +52,10 @@ def make_item(e):
     if e['journal'] == 'arXiv e-prints':
         url = f'\\href{{{e["adsurl"]}}}{{{e["eid"]}}}'
     else:
-        url = f'\\href{{{e["adsurl"]}}}{{{s.join([e["journal"], e["volume"], e["number"], e["eid"]])}}}'
+        pubkeys = ['journal', 'volume', 'number', 'eid']
+        publabel = s.join([e[k] for k in pubkeys if isinstance(e[k], str)])
+        print(publabel)
+        url = f'\\href{{{e["adsurl"]}}}{{{publabel}}}'
     if e['primaryclass'] == 'hep-ph':
         final = '\\item $\\dagger$ '+ s.join([auths, title, url])
     else:
@@ -61,8 +64,9 @@ def make_item(e):
 
 #### Run
 if __name__ == "__main__":
-    if not isinstance(libs, (np.ndarray, list)): libs = [libs]
-    if not isinstance(fns, (np.ndarray, list)): fns = [fns]
+    if not isinstance(libs, (np.ndarray, list)):
+        libs = [libs]
+        fns = [fns]
     for i,l in enumerate(libs):
         df = get_df(l)
         with open(fns[i], 'w') as f:
